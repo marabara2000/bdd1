@@ -7,7 +7,7 @@ import ru.netology.web.data.DataHelper;
 import ru.netology.web.page.LoginPage;
 
 import static com.codeborne.selenide.Selenide.$;
-import static ru.netology.web.data.DataHelper.getAuthInfo;
+import static ru.netology.web.data.DataHelper.*;
 
 public class MoneyTransferTest {
 
@@ -15,10 +15,15 @@ public class MoneyTransferTest {
     void  shouldTransferMoneyBetweenCards() {
         var info = getAuthInfo();
         var verificationCode = DataHelper.getVerificationCode(info);
+        var firstCardInfo = getFirstCardInfo();
+        var secondCardInfo = getSecondCardInfo();
         Selenide.open("http://localhost:9999");
         var loginPage = new LoginPage();
         var verificationPage = loginPage.validLogin(info);
-        verificationPage.validVerify(verificationCode);
+        var dashboardPage = verificationPage.validVerify(verificationCode);
+        var firstCardBalance = dashboardPage.getCardBalance(firstCardInfo);
+        var secondCardBalance = dashboardPage.getCardBalance(secondCardInfo);
+        dashboardPage.selectCardToTransfer(firstCardInfo);
 
     }
 }
