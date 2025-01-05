@@ -24,14 +24,14 @@ public class MoneyTransferTest {
     void shouldTransferFromFirstToSecond() {
         var info = getAuthInfo();
         var verificationCode = DataHelper.getVerificationCode(info);
-        var firstCardInfo = getFirstCardInfo();
-        var secondCardInfo = getSecondCardInfo();
+        firstCardInfo = getFirstCardInfo();
+        secondCardInfo = getSecondCardInfo();
         Selenide.open("http://localhost:9999");
         var loginPage = new LoginPage();
         var verificationPage = loginPage.validLogin(info);
-        var dashboardPage = verificationPage.validVerify(verificationCode);
-        var firstCardBalance = dashboardPage.getCardBalance(firstCardInfo);
-        var secondCardBalance = dashboardPage.getCardBalance(secondCardInfo);
+        dashboardPage = verificationPage.validVerify(verificationCode);
+        firstCardBalance = dashboardPage.getCardBalance(firstCardInfo);
+        secondCardBalance = dashboardPage.getCardBalance(secondCardInfo);
 
 
 
@@ -51,12 +51,12 @@ public class MoneyTransferTest {
     void shouldGetErrorMessageAmountMoreBalance(){
         var info = getAuthInfo();
         var verificationCode = DataHelper.getVerificationCode(info);
-        var firstCardInfo = getFirstCardInfo();
-        var secondCardInfo = getSecondCardInfo();
+        firstCardInfo = getFirstCardInfo();
+        secondCardInfo = getSecondCardInfo();
         Selenide.open("http://localhost:9999");
         var loginPage = new LoginPage();
         var verificationPage = loginPage.validLogin(info);
-        var dashboardPage = verificationPage.validVerify(verificationCode);
+        dashboardPage = verificationPage.validVerify(verificationCode);
         var firstCardBalance = dashboardPage.getCardBalance(firstCardInfo);
         var secondCardBalance = dashboardPage.getCardBalance(secondCardInfo);
 
