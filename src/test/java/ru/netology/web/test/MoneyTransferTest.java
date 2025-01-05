@@ -20,8 +20,8 @@ public class MoneyTransferTest {
     int firstCardBalance;
     int secondCardBalance;
 
-    @Test
-    void shouldTransferFromFirstToSecond() {
+    @BeforeEach
+    void setup(){
         var info = getAuthInfo();
         var verificationCode = DataHelper.getVerificationCode(info);
         firstCardInfo = getFirstCardInfo();
@@ -33,8 +33,11 @@ public class MoneyTransferTest {
         firstCardBalance = dashboardPage.getCardBalance(firstCardInfo);
         secondCardBalance = dashboardPage.getCardBalance(secondCardInfo);
 
+    }
 
 
+    @Test
+    void shouldTransferFromFirstToSecond() {
         var amount = generateValidAmount(firstCardBalance);
         var expectedBalanceFirstCard = firstCardBalance - amount;
         var expectedBalanceSecondCard = secondCardBalance + amount;
@@ -49,17 +52,6 @@ public class MoneyTransferTest {
 
     @Test
     void shouldGetErrorMessageAmountMoreBalance(){
-        var info = getAuthInfo();
-        var verificationCode = DataHelper.getVerificationCode(info);
-        firstCardInfo = getFirstCardInfo();
-        secondCardInfo = getSecondCardInfo();
-        Selenide.open("http://localhost:9999");
-        var loginPage = new LoginPage();
-        var verificationPage = loginPage.validLogin(info);
-        dashboardPage = verificationPage.validVerify(verificationCode);
-        var firstCardBalance = dashboardPage.getCardBalance(firstCardInfo);
-        var secondCardBalance = dashboardPage.getCardBalance(secondCardInfo);
-
         var amount = generateInvalidAmount(secondCardBalance);
         var transferPage = dashboardPage.selectCardToTransfer(firstCardInfo);
         transferPage.makeTransfer(String.valueOf(amount), secondCardInfo);
